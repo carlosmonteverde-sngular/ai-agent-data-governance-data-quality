@@ -1,0 +1,130 @@
+{
+  "rules": [
+    {
+      "table": "drug_indication",
+      "column": "id",
+      "dimension": "UNIQUENESS",
+      "type": "UNIQUENESS",
+      "description": "The drug indication ID must be unique across all records."
+    },
+    {
+      "table": "drug_indication",
+      "column": "id",
+      "dimension": "COMPLETENESS",
+      "type": "NOT_NULL",
+      "description": "The drug indication ID must not be null."
+    },
+    {
+      "table": "drug_indication",
+      "column": "indicationCount",
+      "dimension": "VALIDITY",
+      "type": "SQL_ASSERTION",
+      "description": "The indication count must be non-negative.",
+      "parameters": {
+        "sql_expression": "indicationCount >= 0"
+      }
+    },
+    {
+      "table": "drug_molecule",
+      "column": "id",
+      "dimension": "UNIQUENESS",
+      "type": "UNIQUENESS",
+      "description": "The drug molecule ID must be unique across all records."
+    },
+    {
+      "table": "drug_molecule",
+      "column": "id",
+      "dimension": "COMPLETENESS",
+      "type": "NOT_NULL",
+      "description": "The drug molecule ID must not be null."
+    },
+    {
+      "table": "drug_molecule",
+      "column": "canonicalSmiles",
+      "dimension": "COMPLETENESS",
+      "type": "NOT_NULL",
+      "description": "The canonical SMILES string must not be null for drug molecules."
+    },
+    {
+      "table": "drug_molecule",
+      "column": "inchiKey",
+      "dimension": "COMPLETENESS",
+      "type": "NOT_NULL",
+      "description": "The InChIKey must not be null for drug molecules."
+    },
+    {
+      "table": "drug_molecule",
+      "column": "yearOfFirstApproval",
+      "dimension": "VALIDITY",
+      "type": "SQL_ASSERTION",
+      "description": "The year of first approval must be a valid year (e.g., not in the distant future).",
+      "parameters": {
+        "sql_expression": "yearOfFirstApproval BETWEEN 1000 AND EXTRACT(YEAR FROM CURRENT_DATE())"
+      }
+    },
+    {
+      "table": "drug_molecule",
+      "column": "maximumClinicalTrialPhase",
+      "dimension": "VALIDITY",
+      "type": "SQL_ASSERTION",
+      "description": "The maximum clinical trial phase must be within the valid range (0-4).",
+      "parameters": {
+        "sql_expression": "maximumClinicalTrialPhase >= 0 AND maximumClinicalTrialPhase <= 4"
+      }
+    },
+    {
+      "table": "drug_molecule",
+      "column": "drugType",
+      "dimension": "CONSISTENCY",
+      "type": "SET",
+      "description": "The drug type must be one of the predefined valid types.",
+      "parameters": {
+        "values": ["small molecule", "biologic", "therapy"]
+      }
+    },
+    {
+      "table": "drug_warning",
+      "column": "id",
+      "dimension": "UNIQUENESS",
+      "type": "UNIQUENESS",
+      "description": "The drug warning ID must be unique across all records."
+    },
+    {
+      "table": "drug_warning",
+      "column": "id",
+      "dimension": "COMPLETENESS",
+      "type": "NOT_NULL",
+      "description": "The drug warning ID must not be null."
+    },
+    {
+      "table": "drug_warning",
+      "column": "year",
+      "dimension": "VALIDITY",
+      "type": "SQL_ASSERTION",
+      "description": "The year of the warning must be a valid year (e.g., not in the distant future).",
+      "parameters": {
+        "sql_expression": "year BETWEEN 1000 AND EXTRACT(YEAR FROM CURRENT_DATE())"
+      }
+    },
+    {
+      "table": "drug_warning",
+      "column": "warningType",
+      "dimension": "CONSISTENCY",
+      "type": "SET",
+      "description": "The warning type must be one of the predefined valid types.",
+      "parameters": {
+        "values": ["black box", "safety alert", "pharmacovigilance"]
+      }
+    },
+    {
+      "table": "drug_warning",
+      "column": "efo_id",
+      "dimension": "VALIDITY",
+      "type": "REGEX",
+      "description": "The EFO ID must follow the expected pattern.",
+      "parameters": {
+        "pattern": "^EFO_\\d+$"
+      }
+    }
+  ]
+}
