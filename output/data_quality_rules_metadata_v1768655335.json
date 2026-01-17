@@ -1,0 +1,130 @@
+{
+    "rules": [
+        {
+            "table": "drug_indication",
+            "column": "id",
+            "dimension": "UNIQUENESS",
+            "type": "UNIQUENESS",
+            "description": "The drug indication ID must be unique."
+        },
+        {
+            "table": "drug_indication",
+            "column": "id",
+            "dimension": "COMPLETENESS",
+            "type": "NOT_NULL",
+            "description": "The drug indication ID cannot be null."
+        },
+        {
+            "table": "drug_indication",
+            "column": "indicationCount",
+            "dimension": "VALIDITY",
+            "type": "SQL_ASSERTION",
+            "description": "The indication count must be a non-negative integer.",
+            "parameters": {
+                "assertion": "indicationCount >= 0"
+            }
+        },
+        {
+            "table": "drug_molecule",
+            "column": "id",
+            "dimension": "UNIQUENESS",
+            "type": "UNIQUENESS",
+            "description": "The drug molecule ID must be unique."
+        },
+        {
+            "table": "drug_molecule",
+            "column": "id",
+            "dimension": "COMPLETENESS",
+            "type": "NOT_NULL",
+            "description": "The drug molecule ID cannot be null."
+        },
+        {
+            "table": "drug_molecule",
+            "column": "canonicalSmiles",
+            "dimension": "COMPLETENESS",
+            "type": "NOT_NULL",
+            "description": "The canonical SMILES string cannot be null for drug molecules."
+        },
+        {
+            "table": "drug_molecule",
+            "column": "inchiKey",
+            "dimension": "COMPLETENESS",
+            "type": "NOT_NULL",
+            "description": "The InChIKey cannot be null for drug molecules."
+        },
+        {
+            "table": "drug_molecule",
+            "column": "yearOfFirstApproval",
+            "dimension": "VALIDITY",
+            "type": "SQL_ASSERTION",
+            "description": "The year of first approval must be a valid year (e.g., greater than 0 and not in the future, assuming current year is 2023).",
+            "parameters": {
+                "assertion": "yearOfFirstApproval > 0 AND yearOfFirstApproval <= 2023"
+            }
+        },
+        {
+            "table": "drug_molecule",
+            "column": "maximumClinicalTrialPhase",
+            "dimension": "VALIDITY",
+            "type": "SET",
+            "description": "The maximum clinical trial phase should be within the accepted range (e.g., 0, 1, 2, 3, 4).",
+            "parameters": {
+                "allowed_values": [0, 1, 2, 3, 4]
+            }
+        },
+        {
+            "table": "drug_molecule",
+            "column": "drugType",
+            "dimension": "VALIDITY",
+            "type": "SET",
+            "description": "The drug type should be from a predefined list of valid types.",
+            "parameters": {
+                "allowed_values": ["small molecule", "peptide", "antibody", "protein", "nucleic acid", "gene therapy", "cell therapy", "biologic"]
+            }
+        },
+        {
+            "table": "drug_warning",
+            "column": "id",
+            "dimension": "UNIQUENESS",
+            "type": "UNIQUENESS",
+            "description": "The drug warning ID must be unique."
+        },
+        {
+            "table": "drug_warning",
+            "column": "id",
+            "dimension": "COMPLETENESS",
+            "type": "NOT_NULL",
+            "description": "The drug warning ID cannot be null."
+        },
+        {
+            "table": "drug_warning",
+            "column": "year",
+            "dimension": "VALIDITY",
+            "type": "SQL_ASSERTION",
+            "description": "The year of the warning must be a valid year (e.g., greater than 0 and not in the future, assuming current year is 2023).",
+            "parameters": {
+                "assertion": "year > 0 AND year <= 2023"
+            }
+        },
+        {
+            "table": "drug_warning",
+            "column": "toxicityClass",
+            "dimension": "VALIDITY",
+            "type": "SET",
+            "description": "The toxicity class should be from a predefined list of valid classes.",
+            "parameters": {
+                "allowed_values": ["high", "medium", "low", "unknown"]
+            }
+        },
+        {
+            "table": "drug_warning",
+            "column": "warningType",
+            "dimension": "VALIDITY",
+            "type": "SET",
+            "description": "The warning type should be from a predefined list of valid warning types.",
+            "parameters": {
+                "allowed_values": ["adverse event", "contraindication", "precaution", "black box warning", "drug interaction"]
+            }
+        }
+    ]
+}
