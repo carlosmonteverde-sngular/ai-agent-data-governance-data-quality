@@ -21,13 +21,18 @@ graph LR
 
 1. Activar el entorno virtual:
    ```bash
-   .venv\Scripts\activate
+.\env\Scripts\Activate.ps1
    # O en Mac/Linux:
    source .venv/bin/activate
    ```
+   ```
+o crearlo si no esta creado:
+python -m venv env
+   ```
+
 2. Instalar dependencias:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt o python -m pip install -r requirements.txt
    ```
 3. Configurar credenciales de GCP (Application Default Credentials):
    ```bash
